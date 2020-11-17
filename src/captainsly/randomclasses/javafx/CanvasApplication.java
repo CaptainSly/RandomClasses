@@ -16,6 +16,14 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
+/**
+ * You can extend this class and use it to draw simple animated drawings
+ * By following Lodev's RayCasting tutorial you can use this to get a simple, albeit laggy, raycaster
+ * see the JavaFX-Raycast Project I have on github for an example.
+ * https://github.com/CaptainSly/JavaFX-Raycast
+ * @author Zachary
+ *
+ */
 public abstract class CanvasApplication extends Application {
 
 	private BorderPane root;
@@ -36,7 +44,7 @@ public abstract class CanvasApplication extends Application {
 
 	public CanvasApplication(double canvasWidth, double canvasHeight) {
 		root = new BorderPane();
-		grid = new GridPane();
+		grid = new GridPane();	
 		canvas = new Canvas(canvasWidth, canvasHeight);
 		canvasScene = new Scene(root);
 
@@ -64,10 +72,10 @@ public abstract class CanvasApplication extends Application {
 			@Override
 			public void handle(long currentNanoTime) {
 
-				redraw();
-				render();
 				oldTime = time;
 				time = System.currentTimeMillis();
+				redraw();
+				render();
 				frameTime = time - oldTime;
 
 			}
@@ -93,7 +101,7 @@ public abstract class CanvasApplication extends Application {
 		gc.strokeLine(x, y, x2, y2);
 	}
 
-	public void drawLine(int x, int y, int x2, int y2, CycleMethod meth, Color... colors) {
+	public void drawLine(int x, int y, int x2, int y2, CycleMethod method, Color... colors) {
 
 		ArrayList<Stop> stops = new ArrayList<Stop>();
 		int i = 0;
@@ -102,7 +110,7 @@ public abstract class CanvasApplication extends Application {
 			i++;
 		}
 
-		LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, meth, stops);
+		LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, method, stops);
 
 		gc.setStroke(linearGradient);
 		gc.strokeLine(x, y, x2, y2);
@@ -124,7 +132,7 @@ public abstract class CanvasApplication extends Application {
 		gc.strokeLine(x, y, x, y);
 	}
 
-	public void drawPixel(int x, int y, CycleMethod meth, Color... colors) {
+	public void drawPixel(int x, int y, CycleMethod method, Color... colors) {
 		ArrayList<Stop> stops = new ArrayList<Stop>();
 		int i = 0;
 		for (Color c : colors) {
@@ -132,7 +140,7 @@ public abstract class CanvasApplication extends Application {
 			i++;
 		}
 
-		LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, meth, stops);
+		LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, method, stops);
 
 		gc.setStroke(linearGradient);
 		gc.strokeLine(x, y, x, y);
